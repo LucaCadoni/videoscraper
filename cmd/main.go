@@ -2,68 +2,29 @@ package main
 
 import (
 	"fmt"
-	"io"
-	"log"
-	"net/http"
+	"time"
+	"github.com/LucaCadoni/videoscraper/prototype"
 )
 
 func main(){
 	// fmt.Println("Hello World")
+	fmt.Println("Char Method")
+	start := time.Now()
+	prototype.Charescape()
+	charelapse := time.Since(start)
+	fmt.Printf("Time Elapsed: %d\n", charelapse)
 
-	url := "https://www.animeworld.ac/en"
+	fmt.Println("Regex Method")
+	start = time.Now()
+	prototype.Regex()
+	regexelapse := time.Since(start)
+	fmt.Printf("Time Elapsed: %d\n", regexelapse)
 
-	resp, err := http.Get(url)
-
-	if err != nil {
-		log.Fatal(err)
+	if charelapse <= regexelapse{
+		fmt.Println("Char Method has won")
+	}else{
+		fmt.Println("Regex Method has won")
 	}
-
-	defer resp.Body.Close()
-	
-	body, err := io.ReadAll(resp.Body)
-	// fmt.Println(string(body))
-	strbody := string(body)
-
-	start := -2
-	end := -1
-	currentInString := 0
-	for pos, char := range(strbody){
-		if(char == 60 && currentInString == 0){
-			//fmt.Printf("Element start at %d (%c)", pos, char)
-			start = pos
-		}
-
-		if(char == 47 && start != -2 && end == -1 && currentInString == 0){
-			// ignore close
-			continue
-		}
-
-		if(char == 22){
-			switch currentInString{
-				case 0:
-					currentInString = 1
-				case 1:
-					currentInString = 0
-			}
-		}
-
-		if(char == 27){
-			switch currentInString{
-				case 0:
-					currentInString = 1
-				case 1:
-					currentInString = 0
-			}
-		}
-
-		if(char == 62 && start != -2 && currentInString == 0){
-			end = pos
-			fmt.Print(string(body[start:end + 1]), "\n")
-			start = -2
-			end = -1
-		}
-	}
-
-	//regex for html <[^/<>](([^<>]*".*"[^<>]*>)|([^<>]*>))
 }
+
 
