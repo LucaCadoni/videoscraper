@@ -7,7 +7,7 @@ Notes:
 - Collect Routes and give them a meaning
 - Find Pattern in the site that can give information about result displaying
 
-## pandora pots
+## pandora box
 - How to encounter js core controls
 - How to develop a probability curve
 - Ai
